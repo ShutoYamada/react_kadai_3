@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-//import { withRouter } from "react-router";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 //import { Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import { Box, Button, styled, TextField } from "@material-ui/core";
@@ -90,5 +89,4 @@ const Login = ({ history }) => {
   );
 };
 
-//export default Login;
-export default withRouter(Login);
+export default Login;

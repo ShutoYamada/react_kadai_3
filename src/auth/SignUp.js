@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-//import { withRouter } from "react-router";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "firebase/auth";
 import { AuthContext } from "./AuthProvider";
 import { Box, Button, styled, TextField } from "@material-ui/core";
@@ -113,5 +112,4 @@ const SignUp = ({ history }) => {
   );
 };
 
-//export default SignUp;
-export default withRouter(SignUp);
+export default SignUp;
