@@ -1,28 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
+  console.log("currentUser");
+  console.log(currentUser);
+
   //サインアップ後認証情報を更新
-  const signup = async (name, email, password, history) => {
+  const signup = async (name, email, password, navigate) => {
     try {
-      await auth.createUserWithEmailAndPassword(name, email, password);
-      auth.onAuthStateChanged((user) => setCurrentUser(user));
-      history.push("/");
+      console.log("signup...!");
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log("????????");
+      onAuthStateChanged(auth, (user) => setCurrentUser(user));
+      navigate("/");
     } catch (error) {
       alert(error);
     }
   };
 
   //ログインさせる
-  const login = async (email, password, history) => {
+  const login = async (email, password, navigate) => {
     try {
-      await auth.signInWithEmailAndPassword(email, password);
-      auth.onAuthStateChanged((user) => setCurrentUser(user));
-      history.push("/");
+      await signInWithEmailAndPassword(auth, email, password);
+      onAuthStateChanged(auth, (user) => setCurrentUser(user));
+      navigate("/");
     } catch (error) {
       alert(error);
     }
@@ -30,7 +40,7 @@ const AuthProvider = ({ children }) => {
 
   //初回アクセス時に認証済みかチェック
   useEffect(() => {
-    auth.onAuthStateChanged(setCurrentUser);
+    onAuthStateChanged(auth, setCurrentUser);
   }, []);
 
   return (

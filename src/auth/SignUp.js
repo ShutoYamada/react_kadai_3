@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "firebase/auth";
 import { AuthContext } from "./AuthProvider";
 import { Box, Button, styled, TextField } from "@material-ui/core";
@@ -20,11 +20,19 @@ const SignUpButton = styled(Button)({
 const SignUp = ({ history }) => {
   const { signup } = useContext(AuthContext);
   //AuthContextからsignup関数を受け取る
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { name, email, password } = event.target.elements;
-    signup(name.value, email.value, password.value, history);
+    //const { name, email, password } = event.target.elements;
+    console.log("name --> " + name);
+    console.log("email --> " + email);
+    console.log("password --> " + password);
+    signup(name.value, email.value, password.value, navigate);
   };
 
   return (
@@ -52,6 +60,10 @@ const SignUp = ({ history }) => {
                   autoComplete="user name"
                   autoFocus
                   variant="outlined"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.currentTarget.value);
+                  }}
                 />
               </Box>
             </div>
@@ -74,6 +86,10 @@ const SignUp = ({ history }) => {
                   autoComplete="email"
                   autoFocus
                   variant="outlined"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.currentTarget.value);
+                  }}
                 />
               </Box>
             </div>
@@ -96,6 +112,10 @@ const SignUp = ({ history }) => {
                   id="password"
                   autoComplete="current-password"
                   variant="outlined"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.currentTarget.value);
+                  }}
                 />
               </Box>
             </div>
