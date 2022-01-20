@@ -55,7 +55,10 @@ const Todos = (props) => {
     <>
       <div style={{ textAlign: "center" }}>
         <div className="balance-list">
-          <h2>残高 : {count} 円 </h2>
+          <h2>
+            {/* {display.name} */}
+            さんの残高 : {count} 円{" "}
+          </h2>
           <Box
             component="form"
             sx={{

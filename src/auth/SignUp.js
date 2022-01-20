@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "firebase/auth";
 import { AuthContext } from "./AuthProvider";
 import { Box, Button, styled, TextField } from "@material-ui/core";
+//import { auth } from './firebase';
 
 const SignUpButton = styled(Button)({
   background: "#f16272",
@@ -54,10 +55,10 @@ const SignUp = ({ history }) => {
                   margin="normal"
                   required
                   fullWidth
-                  id="user name"
-                  label="User Name"
-                  name="user name"
-                  autoComplete="user name"
+                  id="Display name"
+                  label="Display name"
+                  name="display name"
+                  autoComplete="display name"
                   autoFocus
                   variant="outlined"
                   value={name}
