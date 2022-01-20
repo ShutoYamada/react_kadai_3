@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 
 const AuthContext = React.createContext();
@@ -18,10 +19,15 @@ const AuthProvider = ({ children }) => {
   const signup = async (name, email, password, navigate) => {
     try {
       console.log("signup...!");
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log("????????");
-      onAuthStateChanged(auth, (user) => setCurrentUser(user));
-      navigate("/");
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      updateProfile(res?.user, {
+        displayName: name,
+      });
+
+      onAuthStateChanged(auth, (user) => {
+        setCurrentUser(user);
+      });
+      //navigate("/");
     } catch (error) {
       alert(error);
     }
