@@ -33,7 +33,7 @@ const SignUp = ({ history }) => {
     console.log("name --> " + name);
     console.log("email --> " + email);
     console.log("password --> " + password);
-    signup(name.value, email.value, password.value, navigate);
+    signup(name, email, password, navigate);
   };
 
   return (
