@@ -17,17 +17,17 @@ const addTodoReducer = createSlice({
       return state.filter((item) => item.id !== action.payload);
     },
     //todoを更新
-    updateTodos: (state, action) => {
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return {
-            ...todo,
-            item: action.payload.item,
-          };
-        }
-        return todo;
-      });
-    },
+    // updateTodos: (state, action) => {
+    //   return state.map((todo) => {
+    //     if (todo.id === action.payload.id) {
+    //       return {
+    //         ...todo,
+    //         item: action.payload.item,
+    //       };
+    //     }
+    //     return todo;
+    //   });
+    // },
     // completeTodos: (state, action) => {
     //   return state.map((todo) => {
     //     if (todo.id === action.payload) {
@@ -43,5 +43,5 @@ const addTodoReducer = createSlice({
 });
 //export const { addTodos, removeTodos, updateTodos, completeTodos } =
 // addTodoReducer.actions;
-export const { addTodos, removeTodos, updateTodos } = addTodoReducer.actions;
+export const { addTodos, removeTodos } = addTodoReducer.actions;
 export const reducer = addTodoReducer.reducer;
