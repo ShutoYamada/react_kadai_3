@@ -12,14 +12,13 @@ const AuthContext = React.createContext();
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
-  console.log("currentUser");
-  console.log(currentUser);
-
   //サインアップ後認証情報を更新
   const signup = async (name, email, password, navigate) => {
     try {
-      console.log("signup...!");
+      // メアドとパスワードからユーザを作成
       const res = await createUserWithEmailAndPassword(auth, email, password);
+
+      // 作成したユーザにdisplaynameをセット
       updateProfile(res?.user, {
         displayName: name,
       });
@@ -27,7 +26,9 @@ const AuthProvider = ({ children }) => {
       onAuthStateChanged(auth, (user) => {
         setCurrentUser(user);
       });
-      //navigate("/");
+
+      // メイン画面へ移動
+      navigate("/");
     } catch (error) {
       alert(error);
     }

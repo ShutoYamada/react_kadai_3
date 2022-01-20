@@ -3,11 +3,15 @@
 //count 送金者の残高
 //num　送金者の入金及び出勤額
 //balance 受取人の残高
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { addTodos } from "../redux/reducer";
 //import { motion } from "framer-motion";
 import { Box, TextField, Button } from "@material-ui/core";
+import {auth} from '../firebase';
+import {
+  onAuthStateChanged,
+} from "firebase/auth";
 
 const mapStateToProps = (state) => {
   return {
@@ -23,11 +27,19 @@ const mapDispatchToProps = (dispatch) => {
 
 const Todos = (props) => {
   const { count, setCount } = props;
+  // ログインユーザ
+  const [currentUser, setCurrentUser] = useState(null);
   const [todo, setTodo] = useState("");
 
   const handleChange = (e) => {
     setTodo(e.target.value);
   };
+
+  // firebase authから現在のユーザ情報のサブスクライブを行う
+  useEffect(() => {
+    onAuthStateChanged(auth, (usr) => setCurrentUser(usr));
+  }, []);
+
   //const [count, setCount] = useState(0);
   const [num, setNum] = useState(100);
   const onCountUp = () => {
@@ -57,6 +69,7 @@ const Todos = (props) => {
         <div className="balance-list">
           <h2>
             {/* {display.name} */}
+            {currentUser?.displayName ?? ''}
             さんの残高 : {count} 円{" "}
           </h2>
           <Box
