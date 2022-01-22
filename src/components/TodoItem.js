@@ -2,7 +2,7 @@
 //count 送金者の残高
 //num　送金者の入金及び出勤額
 //balance 受取人の残高
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import Modal from "react-modal";
 import {
   Box,
@@ -16,6 +16,7 @@ import {
   DialogTitle,
   Typography,
 } from "@material-ui/core";
+import { AuthContext } from "../auth/AuthProvider";
 
 const style = {
   position: "absolute",
@@ -65,12 +66,13 @@ const AddTodoTransferDialog = ({
   handleClickClose,
   handleClickTransferButton,
 }) => {
+  const {currentUser} = useContext(AuthContext);
   if (!addTodo) return null;
   return (
     <Dialog open={open} onClose={handleClickClose}>
       <DialogTitle>{addTodo.addTodos}</DialogTitle>
       <DialogContent>
-        <DialogContentText>あなたの残高: {count} 円</DialogContentText>
+        <DialogContentText>{currentUser?.displayName ?? '未ログイン'}の残高: {count} 円</DialogContentText>
         <Box
           component="form"
           sx={{
