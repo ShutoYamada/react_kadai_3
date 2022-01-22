@@ -3,7 +3,7 @@
 //count 送金者の残高
 //num　送金者の入金及び出勤額
 //balance 受取人の残高
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { addTodos } from "../redux/reducer";
 //import { motion } from "framer-motion";
@@ -12,6 +12,7 @@ import {auth} from '../firebase';
 import {
   onAuthStateChanged,
 } from "firebase/auth";
+import { AuthContext } from "../auth/AuthProvider";
 
 const mapStateToProps = (state) => {
   return {
@@ -27,20 +28,14 @@ const mapDispatchToProps = (dispatch) => {
 
 const Todos = (props) => {
   const { count, setCount } = props;
-  // ログインユーザ
-  const [currentUser, setCurrentUser] = useState(null);
   const [todo, setTodo] = useState("");
+  // Contextからログインユーザを取得
+  const {currentUser} = useContext(AuthContext);
 
   const handleChange = (e) => {
     setTodo(e.target.value);
   };
 
-  // firebase authから現在のユーザ情報のサブスクライブを行う
-  useEffect(() => {
-    onAuthStateChanged(auth, (usr) => setCurrentUser(usr));
-  }, []);
-
-  //const [count, setCount] = useState(0);
   const [num, setNum] = useState(100);
   const onCountUp = () => {
     setCount(count + num);
@@ -61,15 +56,14 @@ const Todos = (props) => {
       setTodo("");
     }
   };
-  //console.log("todo text", todo);
-  //console.log("props from store", props);
+
   return (
     <>
       <div style={{ textAlign: "center" }}>
         <div className="balance-list">
           <h2>
             {/* {display.name} */}
-            {currentUser?.displayName ?? ''}
+            {currentUser?.displayName ?? '未ログイン'}
             さんの残高 : {count} 円{" "}
           </h2>
           <Box
