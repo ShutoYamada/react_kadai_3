@@ -43,10 +43,10 @@ const AddTodoWalletDialog = ({ isOpen, addTodo, handleClose }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {addTodo.addTodos}
+          {addTodo.item}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          残高 : {addTodo.balance} 円
+          残高 : {addTodo.balance ?? 0} 円
         </Typography>
         <Button variant="outlined" color="secondary" onClick={handleClose}>
           Close
@@ -126,8 +126,8 @@ const TodoItem = (props) => {
   const inputRef = useRef(true);
 
   const changeFocus = () => {
-    inputRef.current.disabled = false;
-    inputRef.current.focus();
+    // inputRef.current.disabled = false;
+    // inputRef.current.focus();
     setIsOpen(true);
     setTargetTodo(item);
   };
