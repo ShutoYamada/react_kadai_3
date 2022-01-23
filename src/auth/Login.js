@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 //import { Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import { Box, Button, styled, TextField } from "@material-ui/core";
@@ -20,11 +20,14 @@ const SignInButton = styled(Button)({
 const Login = ({ history }) => {
   const { login } = useContext(AuthContext);
   //AuthContextからlogin関数を受け取る
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
-    login(email.value, password.value, history);
+    login(email, password, navigate);
   };
 
   return (
@@ -53,6 +56,10 @@ const Login = ({ history }) => {
                   autoComplete="email"
                   autoFocus
                   variant="outlined"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.currentTarget.value);
+                  }}
                 />
               </Box>
             </div>
@@ -75,6 +82,10 @@ const Login = ({ history }) => {
                   id="password"
                   autoComplete="current-password"
                   variant="outlined"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.currentTarget.value);
+                  }}
                 />
               </Box>
             </div>

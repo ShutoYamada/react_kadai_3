@@ -29,10 +29,6 @@ const SignUp = ({ history }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //const { name, email, password } = event.target.elements;
-    console.log("name --> " + name);
-    console.log("email --> " + email);
-    console.log("password --> " + password);
     signup(name, email, password, navigate);
   };
 

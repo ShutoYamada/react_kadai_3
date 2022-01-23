@@ -2,7 +2,7 @@
 //count 送金者の残高
 //num　送金者の入金及び出勤額
 //balance 受取人の残高
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import Modal from "react-modal";
 import {
   Box,
@@ -16,6 +16,7 @@ import {
   DialogTitle,
   Typography,
 } from "@material-ui/core";
+import { AuthContext } from "../auth/AuthProvider";
 
 const style = {
   position: "absolute",
@@ -32,6 +33,7 @@ const style = {
 // 対象の受取人のWalletダイアログ
 const AddTodoWalletDialog = ({ isOpen, addTodo, handleClose }) => {
   if (!addTodo) return null;
+  console.log(addTodo);
   return (
     <Modal
       className="wallet"
@@ -42,10 +44,10 @@ const AddTodoWalletDialog = ({ isOpen, addTodo, handleClose }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {addTodo.addTodos}
+          {addTodo.item}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          残高 : {addTodo.balance} 円
+          残高 : {addTodo.balance ?? 0} 円
         </Typography>
         <Button variant="outlined" color="secondary" onClick={handleClose}>
           Close
@@ -65,12 +67,13 @@ const AddTodoTransferDialog = ({
   handleClickClose,
   handleClickTransferButton,
 }) => {
+  const {currentUser} = useContext(AuthContext);
   if (!addTodo) return null;
   return (
     <Dialog open={open} onClose={handleClickClose}>
       <DialogTitle>{addTodo.addTodos}</DialogTitle>
       <DialogContent>
-        <DialogContentText>あなたの残高: {count} 円</DialogContentText>
+        <DialogContentText>{currentUser?.displayName ?? '未ログイン'}の残高: {count} 円</DialogContentText>
         <Box
           component="form"
           sx={{
@@ -112,7 +115,7 @@ const AddTodoTransferDialog = ({
 
 const TodoItem = (props) => {
   //const { item, updateTodo, removeTodo, count, setCount } = props;
-  const { item, removeTodo, count, setCount } = props;
+  const { item, updateTodo, removeTodo, count, setCount } = props;
   const [balance, setBalance] = useState(0);
   const [num, setNum] = useState(100);
   //const [addTodos, setAddTodos] = useState([]);
@@ -124,8 +127,8 @@ const TodoItem = (props) => {
   const inputRef = useRef(true);
 
   const changeFocus = () => {
-    inputRef.current.disabled = false;
-    inputRef.current.focus();
+    // inputRef.current.disabled = false;
+    // inputRef.current.focus();
     setIsOpen(true);
     setTargetTodo(item);
   };
@@ -143,6 +146,11 @@ const TodoItem = (props) => {
   const onBalanceUp = () => {
     setBalance(balance + num);
   };
+
+  const transfer = () => {
+    const newTodo = {...item, balance: item?.balance + num};
+    updateTodo?.(newTodo);
+  }
 
   // const handleDelete = (index) => {
   //   const newTodos = [...addTodos];
@@ -167,6 +175,7 @@ const TodoItem = (props) => {
   const handleClickTransferButton = () => {
     onCountDown();
     onBalanceUp();
+    transfer();
   };
 
   return (
