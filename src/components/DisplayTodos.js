@@ -9,13 +9,13 @@ import {
   addTodos,
   // completeTodos,
   removeTodos,
-  // updateTodos,
+  updateTodos,
 } from "../redux/reducer";
 import TodoItem from "./TodoItem";
 
 const mapStateToProps = (state) => {
   return {
-    todos: state,
+    todos: state?.todos,
   };
 };
 
@@ -23,13 +23,14 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addTodo: (obj) => dispatch(addTodos(obj)),
     removeTodo: (id) => dispatch(removeTodos(id)),
-    //updateTodo: (obj) => dispatch(updateTodos(obj)),
+    updateTodo: (obj) => dispatch(updateTodos(obj)),
     //completeTodo: (id) => dispatch(completeTodos(id)),
   };
 };
 const DisplayTodos = (props) => {
   const { count, setCount } = props;
   const [sort, setSort] = useState("active");
+
   return (
     <div className="displaytodos">
       {/* <div className="buttons">
@@ -48,7 +49,7 @@ const DisplayTodos = (props) => {
                     removeTodo={props.removeTodo}
                     count={count}
                     setCount={setCount}
-                    //updataTodo={props.updataTodo}
+                    updateTodo={props.updateTodo}
                     //completeTodo={props.completeTodo}
                   />
                 )

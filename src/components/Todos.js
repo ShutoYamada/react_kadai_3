@@ -16,7 +16,7 @@ import { AuthContext } from "../auth/AuthProvider";
 
 const mapStateToProps = (state) => {
   return {
-    todos: state,
+    todos: state?.todos,
   };
 };
 
@@ -52,6 +52,7 @@ const Todos = (props) => {
         id: Math.floor(Math.random() * 1000),
         item: todo,
         completed: false,
+        balance: 0,
       });
       setTodo("");
     }

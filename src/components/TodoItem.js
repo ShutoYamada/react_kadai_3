@@ -33,6 +33,7 @@ const style = {
 // 対象の受取人のWalletダイアログ
 const AddTodoWalletDialog = ({ isOpen, addTodo, handleClose }) => {
   if (!addTodo) return null;
+  console.log(addTodo);
   return (
     <Modal
       className="wallet"
@@ -114,7 +115,7 @@ const AddTodoTransferDialog = ({
 
 const TodoItem = (props) => {
   //const { item, updateTodo, removeTodo, count, setCount } = props;
-  const { item, removeTodo, count, setCount } = props;
+  const { item, updateTodo, removeTodo, count, setCount } = props;
   const [balance, setBalance] = useState(0);
   const [num, setNum] = useState(100);
   //const [addTodos, setAddTodos] = useState([]);
@@ -146,6 +147,11 @@ const TodoItem = (props) => {
     setBalance(balance + num);
   };
 
+  const transfer = () => {
+    const newTodo = {...item, balance: item?.balance + num};
+    updateTodo?.(newTodo);
+  }
+
   // const handleDelete = (index) => {
   //   const newTodos = [...addTodos];
   //   newTodos.splice(index, 1);
@@ -169,6 +175,7 @@ const TodoItem = (props) => {
   const handleClickTransferButton = () => {
     onCountDown();
     onBalanceUp();
+    transfer();
   };
 
   return (
